@@ -21,19 +21,19 @@ import static com.interview.common.utils.PropertiesUtils.getStringProperty;
 
 public abstract class ApiTest extends BaseTest {
 
-    protected static RequestSpecBuilder defaultRequestBuilder() {
+    @BeforeSuite(alwaysRun = true)
+    public void setUpApi() {
+        Awaitility.setDefaultConditionEvaluationListener(new AllureAwaitilityListener());
+        Awaitility.setDefaultPollInterval(Duration.ofSeconds(10));
+        Awaitility.setDefaultTimeout(Duration.ofMinutes(5));
+        Awaitility.pollInSameThread();
+    }
+
+    protected RequestSpecBuilder defaultRequestBuilder() {
         return new RequestSpecBuilder().setContentType(ContentType.JSON).setAccept(ContentType.JSON).addFilters(
                         List.of(new RequestLoggingFilter(), new ResponseLoggingFilter(), new AllureRestAssured(),
                                 new SwaggerCoverageRestAssured(
                                         new FileSystemOutputWriter(Paths.get("target/" + OUTPUT_DIRECTORY)))))
                 .setBaseUri(getStringProperty("api.base.url"));
-    }
-
-    @BeforeSuite(alwaysRun = true)
-    public void setUp() {
-        Awaitility.setDefaultConditionEvaluationListener(new AllureAwaitilityListener());
-        Awaitility.setDefaultPollInterval(Duration.ofSeconds(10));
-        Awaitility.setDefaultTimeout(Duration.ofMinutes(5));
-        Awaitility.pollInSameThread();
     }
 }

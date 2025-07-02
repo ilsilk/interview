@@ -5,8 +5,8 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.interview.BaseTest;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 import java.util.Map;
 
@@ -14,8 +14,8 @@ import static com.interview.common.utils.PropertiesUtils.getStringProperty;
 
 public abstract class UiTest extends BaseTest {
 
-    @BeforeSuite(alwaysRun = true)
-    public void setUp() {
+    @BeforeMethod(alwaysRun = true)
+    public void setUpUi() {
         Configuration.browser = getStringProperty("browser");
         Configuration.browserSize = getStringProperty("browser.size");
         Configuration.browserCapabilities.setCapability("selenoid:options", Map.of("enableVNC", true));
@@ -26,7 +26,7 @@ public abstract class UiTest extends BaseTest {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
-    @AfterSuite(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         Selenide.closeWebDriver();
     }
