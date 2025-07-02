@@ -19,7 +19,7 @@ public abstract class UiTest extends BaseTest {
         Configuration.browser = getStringProperty("browser");
         Configuration.browserSize = getStringProperty("browser.size");
         Configuration.browserCapabilities.setCapability("selenoid:options", Map.of("enableVNC", true));
-        Configuration.baseUrl = getStringProperty("base.url");
+        Configuration.baseUrl = getStringProperty("ui.base.url");
         Configuration.remote = getStringProperty("remote");
         Configuration.downloadsFolder = "target/downloads";
         Configuration.reportsFolder = "target/reports/tests";
